@@ -1,11 +1,11 @@
 myproc:myproc.c
-	gcc -o $@ $^ -std=c99
+	gcc -o $@ $^
 .PHONY:clean
 clean:
 	rm -f myproc
 
-#myproc:myproc.c
-#	gcc -o $@ $^
+#myproc.exe:myproc.c
+#	gcc -o $@ $^ -g
 #.PHONY:clean
 #clean:
-#	rm -f myproc
+#	rm -f myproc.exe
