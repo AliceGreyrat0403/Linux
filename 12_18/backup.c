@@ -3,6 +3,67 @@
 //#include<unistd.h>
 //#include<stdlib.h>
 //#include<string.h>
+//#include<sys/types.h>
+//#include<sys/wait.h>
+//
+//int exit_code = 0;
+//
+//int main()
+//{
+//    printf("我是父进程：pid: %d,ppid: %d\n",getpid(),getppid());
+//
+//    pid_t id = fork();
+//    if(id < 0)
+//    {
+//        perror("fork");
+//        exit(1);
+//    }
+//    if(id == 0)
+//    {
+//        // 子进程
+//        int cnt = 5;
+//        while(cnt)
+//        {
+//            printf("我是子进程：pid: %d,ppid: %d,cnt: %d\n",getpid(),getppid(),cnt);
+//            sleep(1);
+//            cnt--;
+//        }
+//        printf("子进程退出！\n");
+//        exit_code = 11;
+//        exit(11);
+//    }
+//
+//    // 父进程
+//    //pid_t rid = wait(NULL);
+//    int status = 0;
+//    pid_t rid = waitpid(id,&status,0);
+//    if(rid > 0)
+//    {
+//        printf("等待子进程成功. . ., status: %d,exit exit_code: %d\n",status,(status>>8)&0xFF);
+//    }
+//
+//    return 0;
+//}
+
+#include<time.h>
+#include<stdio.h>
+#include<unistd.h>
+#include<stdlib.h>
+#include<string.h>
+
+int main()
+{
+    printf("hello world: %d",getpid());
+    sleep(2);
+    //exit(14);
+    exit(16);
+}
+
+//#include<time.h>
+//#include<stdio.h>
+//#include<unistd.h>
+//#include<stdlib.h>
+//#include<string.h>
 //
 //int print()
 //{
@@ -12,29 +73,29 @@
 //
 //int main()
 //{
-//    int n = printf();
-//    printf("n = %d\n", n);
-//    
+//    int n = print();
+//    printf("n = %d\n",n);
+//
 //    return 10;
 //}
 
-#include<stdio.h>
-#include<unistd.h>
-#include<time.h>
-#include<stdlib.h>
-#include<string.h>
-
-int main()
-{
-    while(1)
-    {
-        printf("haha,I'm a process! pid: %d, ppid: %d\n",getpid(),getppid());
-        sleep(1);
-        int a = 10;
-        a/=0;   // 有/0错误，但是符合C语言语法，最多给一个告警，程序照样能够跑，过了1秒程序退出，因为出异常了
-    }
-
-}
+//#include<stdio.h>
+//#include<unistd.h>
+//#include<time.h>
+//#include<stdlib.h>
+//#include<string.h>
+//
+//int main()
+//{
+//    while(1)
+//    {
+//        printf("haha,I'm a process! pid: %d, ppid: %d\n",getpid(),getppid());
+//        sleep(1);
+//        //int a = 10;
+//        //a/=0;   // 有/0错误，但是符合C语言语法，最多给一个告警，程序照样能够跑，过了1秒程序退出，因为出异常了
+//    }
+//
+//}
 
 //// 证明信号可以杀死进程，但是还不能直观地证明进程中间出异常退出是因为受到信号的影响
 //#include<stdio.h>
