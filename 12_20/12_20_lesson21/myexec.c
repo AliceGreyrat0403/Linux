@@ -1,55 +1,55 @@
-//#include <stdio.h>
-//#include <stdlib.h>
-//#include <unistd.h>
-//#include <sys/types.h>
-//#include <sys/wait.h>
-//
-//int main()
-//{
-//    printf("我是父进程: pid: %d,ppid: %d\n",getpid(),getppid());
-//    pid_t id = fork();
-//    if(id == 0)
-//    {
-//        printf("我是子进程: pid: %d,ppid: %d\n",getpid(),getppid());
-//        sleep(1);
-//        char *const argv[] = {
-//            (char*)"top",
-//            (char*)"-d",
-//            (char*)"1",
-//            (char*)"-n",
-//            (char*)"3",
-//            NULL
-//        };
-//        char *const env[] = {
-//            "haha=hehe",
-//            "HOME=/home",
-//            "BASH=XXX",
-//            "PATH=/usr/bin/",
-//            NULL
-//        };
-//        execvp(argv[0],argv);
-//        execlp("ls","ls","-a","-l","-n",NULL);
-//        execv("/usr/bin/top",argv);
-//        //execl("/usr/bin/ls", "ls", "-a", "-l", NULL); //?????
-//        //execl("/usr/bin/top", "top", "-d", "1", "-n", "3", NULL); //?????
-//        //execl("./myproc", "myproc", "-a", "-b", "-c", NULL); //我们没有传递环境变量！
-//        //execle("./myproc", "myproc", "-a", "-b", "-c", NULL, env); //我们没有传递环境变量！
-//        extern char **environ;
-//        putenv((char*)"haha=hehe");
-//        putenv((char*)"class=118");
-//        execle("./myproc", "myproc", "-a", "-b", "-c", NULL, environ); //我们没有传递环境变量！
-//        //execl("/usr/bin/bash", "bash", "shell.sh", NULL); //?????
-//        //execl("/usr/bin/python3", "python3", "test.py", NULL); //?????
-//        exit(1);
-//    }
-//    // father
-//    pid_t rid = waitpid(id,NULL，0);
-//    if(rid > 0)
-//    {
-//        printf("wait child process success!\n");
-//    }
-//    return 0;
-//}
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <sys/types.h>
+#include <sys/wait.h>
+
+int main()
+{
+    printf("我是父进程: pid: %d,ppid: %d\n",getpid(),getppid());
+    pid_t id = fork();
+    if(id == 0)
+    {
+        printf("我是子进程: pid: %d,ppid: %d\n",getpid(),getppid());
+        sleep(1);
+        char *const argv[] = {
+            (char*)"top",
+            (char*)"-d",
+            (char*)"1",
+            (char*)"-n",
+            (char*)"3",
+            NULL
+        };
+        char *const env[] = {
+            (char*)"haha=hehe",
+            (char*)"HOME=/home",
+            (char*)"BASH=XXX",
+            (char*)"PATH=/usr/bin/",
+            NULL
+        };
+        //execvp(argv[0],argv);
+        //execlp("ls","ls","-a","-l","-n",NULL);
+        //execv("/usr/bin/top",argv);
+        //execl("/usr/bin/ls", "ls", "-a", "-l", NULL); //?????
+        //execl("/usr/bin/top", "top", "-d", "1", "-n", "3", NULL); //?????
+        //execl("./myproc", "myproc", "-a", "-b", "-c", NULL); //我们没有传递环境变量！
+        //execle("./myproc", "myproc", "-a", "-b", "-c", NULL, env); //我们没有传递环境变量！
+        extern char **environ;
+        putenv((char*)"haha=hehe");
+        putenv((char*)"class=118");
+        execle("./myproc", "myproc", "-a", "-b", "-c", NULL, environ); //我们没有传递环境变量！
+        //execl("/usr/bin/bash", "bash", "shell.sh", NULL); //?????
+        //execl("/usr/bin/python3", "python3", "test.py", NULL); //?????
+        exit(1);
+    }
+    // father
+    pid_t rid = waitpid(id,NULL,0);
+    if(rid > 0)
+    {
+        printf("wait child process success!\n");
+    }
+    return 0;
+}
 
 // ============================================================================
 
@@ -114,11 +114,11 @@
 
 // ========================================================================================
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <sys/types.h>
-#include <sys/wait.h>
+//#include <stdio.h>
+//#include <stdlib.h>
+//#include <unistd.h>
+//#include <sys/types.h>
+//#include <sys/wait.h>
 
 //void Printlog()
 //{
@@ -135,7 +135,7 @@
 //    printf("我要下载核心数据!\n");
 //}
 
-typedef void(*task_t)();
+//typedef void(*task_t)();
 
 //task_t tasks[3] = {
 //    Printlog,
@@ -150,61 +150,61 @@ typedef void(*task_t)();
 //#include <unistd.h>
 //#include <sys/types.h>
 //#include <sys/wait.h>
-
-int main()
-{
-    printf("我是父进程, pid :%d, ppid : %d\n", getpid(), getppid());
-    pid_t id = fork();
-    if(id == 0)
-    {
-        //child
-        int cnt = 5;
-        while(cnt)
-        {
-            printf("我是子进程, pid :%d, ppid : %d, cnt: %d\n", getpid(), getppid(), cnt);
-            sleep(1);
-            cnt--;
-            //int *p = NULL;
-            //*p = 100;
-           // int a = 10;
-           // a/=0;
-        }
-        exit(13);
-    }
-
-    while(1)
-    {
-        int status = 0;
-        pid_t rid = waitpid(id, &status, WNOHANG);
-        if(rid > 0)
-        {
-            // status >>= 8 || status = status>>8
-            // 7F : 0111 1111
-            //printf("wait success, who: %d, status: %d, exit code: %d, exit sig: %d\n", rid, status, (status>>8)&0xFF, status & 0x7F);
-            if(WIFEXITED(status))
-            {
-                printf("子进程正常退出, 退出码: %d\n", WEXITSTATUS(status));
-            }
-            else
-            {
-                printf("进程出异常了,请注意!\n");
-            }
-            break;
-        }
-        else if(rid == 0)
-        {
-            sleep(1);
-            printf("子进程还没有退出，父进程轮询!\n");
-            for(int i = 0; i < 3; i++)
-            {
-                tasks[i]();
-            }
-        }
-        else
-        {
-            printf("wait failed, who: %d, status: %d\n", rid, status);
-            break;
-        }
-    }
-    return 0;
-}
+//
+//int main()
+//{
+//    printf("我是父进程, pid :%d, ppid : %d\n", getpid(), getppid());
+//    pid_t id = fork();
+//    if(id == 0)
+//    {
+//        //child
+//        int cnt = 5;
+//        while(cnt)
+//        {
+//            printf("我是子进程, pid :%d, ppid : %d, cnt: %d\n", getpid(), getppid(), cnt);
+//            sleep(1);
+//            cnt--;
+//            //int *p = NULL;
+//            //*p = 100;
+//           // int a = 10;
+//           // a/=0;
+//        }
+//        exit(13);
+//    }
+//
+//    while(1)
+//    {
+//        int status = 0;
+//        pid_t rid = waitpid(id, &status, WNOHANG);
+//        if(rid > 0)
+//        {
+//            // status >>= 8 || status = status>>8
+//            // 7F : 0111 1111
+//            //printf("wait success, who: %d, status: %d, exit code: %d, exit sig: %d\n", rid, status, (status>>8)&0xFF, status & 0x7F);
+//            if(WIFEXITED(status))
+//            {
+//                printf("子进程正常退出, 退出码: %d\n", WEXITSTATUS(status));
+//            }
+//            else
+//            {
+//                printf("进程出异常了,请注意!\n");
+//            }
+//            break;
+//        }
+//        else if(rid == 0)
+//        {
+//            sleep(1);
+//            printf("子进程还没有退出，父进程轮询!\n");
+//            for(int i = 0; i < 3; i++)
+//            {
+//                tasks[i]();
+//            }
+//        }
+//        else
+//        {
+//            printf("wait failed, who: %d, status: %d\n", rid, status);
+//            break;
+//        }
+//    }
+//    return 0;
+//}
