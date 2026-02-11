@@ -7,15 +7,15 @@
 
 int main()
 {
-    //int fda = open("loga.txt",O_RDONLY);
-    //dup2(fda,0);
+    int fda = open("loga.txt",O_RDONLY);
+    dup2(fda,0);
 
-    //int a = 0;
-    //float f = 0.0f;
-    //char c = 0;
-    //scanf("%d %f %c",&a,&f,&c);
+    int a = 0;
+    float f = 0.0f;
+    char c = 0;
+    scanf("%d %f %c",&a,&f,&c);
 
-    //printf("%d %f %c\n",a,f,c);
+    printf("%d %f %c\n",a,f,c);
 
     //// 联系重定向
     //// 格式化输出：上层的用户层，stdout -> 1
@@ -27,26 +27,26 @@ int main()
     //printf("stdout: %d\n",stdout->_fileno);
     //printf("stdout: %d\n",stderr->_fileno);
 
-    FILE *fp = fopen("log.txt","w");
-    printf("log.txt: %d\n",fp->_fileno);    // 3（fd数组下标）
+    //FILE *fp = fopen("log.txt","w");
+    //printf("log.txt: %d\n",fp->_fileno);    // 3（fd数组下标）
 
-    fprintf(stdout,"hello stdout\n");
-    close(1);
-    int fda = open("loga.txt",O_CREAT | O_WRONLY | O_TRUNC,0666);
-    int fdb = open("logb.txt",O_CREAT | O_WRONLY | O_TRUNC,0666);
-    int fdc = open("logc.txt",O_CREAT | O_WRONLY | O_TRUNC,0666);
+    //fprintf(stdout,"hello stdout\n");
+    //close(1);
+    //int fda = open("loga.txt",O_CREAT | O_WRONLY | O_TRUNC,0666);
+    //int fdb = open("logb.txt",O_CREAT | O_WRONLY | O_TRUNC,0666);
+    //int fdc = open("logc.txt",O_CREAT | O_WRONLY | O_TRUNC,0666);
 
-    fprintf(stdout,"fda : %d\n",fda);
-    fprintf(stdout,"fdb : %d\n",fdb);
-    fprintf(stdout,"fdc : %d\n",fdc);
-
-    //printf(stdout,"fda : %d\n",fda);
-    //printf(stdout,"fdb : %d\n",fdb);
-    //printf(stdout,"fdc : %d\n",fdc);
+    //fprintf(stdout,"fda : %d\n",fda);
+    //fprintf(stdout,"fdb : %d\n",fdb);
+    //fprintf(stdout,"fdc : %d\n",fdc);
+   
+    //printf("fda : %d\n",fda);
+    //printf("fdb : %d\n",fdb);
+    //printf("fdc : %d\n",fdc);
     
-    close(fda);
-    close(fdb);
-    close(fdc);
+    //close(fda);
+    //close(fdb);
+    //close(fdc);
 
     return 0;
 }
