@@ -1,19 +1,27 @@
 #include <iostream>
 #include <string>
 #include <unistd.h>
+#include <sys/wait.h>
 
 // 子进程：w
 void WriteData(int wfd)
 {
     int cnt = 1;
-    pid_t id = getpid();
+    char ch = 'a';
+    // pid_t id = getpid();
     while(true)
     {
-        sleep(1);
-        std::string message = "hello father process, ";
-        message += "cnt: " + std::to_string(cnt++) + ",my pid is: " + std::to_string(id);
-        write(wfd,message.c_str(),message.size());
+        // sleep(1);
+        // std::string message = "hello father process, ";
+        // message += "cnt: " + std::to_string(cnt++) + ",my pid is: " + std::to_string(id);
+        // write(wfd,message.c_str(),message.size());
 
+        sleep(1);
+        write(wfd,&ch,1);
+        printf("cnt: %d\n",cnt++);  // 管道容量在ubuntu这个版本是64KB
+
+        // sleep(5);
+        // break;
     }
 }
 
@@ -28,8 +36,20 @@ void ReadData(int rfd)
         ssize_t n = read(rfd,inbuffer,sizeof(inbuffer) - 1);
         if(n > 0)
         {
-            inbuffer[n] = '\n';
+            inbuffer[n] = '\0';
             std::cout << getpid() << " # " << inbuffer << std::endl;
+            sleep(3);
+            break;
+        }
+        else if(n == 0)
+        {
+            printf("ReadData: pipe end:%ld\n",n);
+            break;
+        }
+        else
+        {
+            printf("ReadData: pipe error:%ld\n",n);
+            break;
         }
     }
 }
@@ -59,6 +79,12 @@ int main()
         close(pipefd[1]);
         ReadData(pipefd[0]);
         close(pipefd[0]);
+
+        int status = 0;
+        pid_t rid = waitpid(id,&status,0);
+        (void)rid;
+
+        printf("exit code: %d,exit signal: %d\n",(status>>8)&0xFF,status & 0x7F);
     }
 
     // // 0->read fd，1->write fd
