@@ -190,6 +190,10 @@ public:
             }
             else if(id == 0)    // 子进程
             {
+                // 关闭父进程历史进程的wfd！
+                for(auto &channel : _channels)
+                    channel.Close();
+
                 close(pipefd[1]);
                 Work(pipefd[0]);
                 close(pipefd[0]);
