@@ -9,6 +9,8 @@
 
 int main()
 {
+    std::cout << "open begin" << std::endl;
+
     // int wfd = open(fifoname.c_str(),O_WRONLY);
     int wfd = open("fifo", O_WRONLY);
     if(wfd < 0)
@@ -16,6 +18,7 @@ int main()
         perror("open");
         return 1;
     }
+    std::cout << "open end" << std::endl;
 
     std::string outstring;
     while(true)

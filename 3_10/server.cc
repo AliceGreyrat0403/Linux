@@ -22,12 +22,15 @@ int main()
     }
 
     // 2.打开管道文件
+    std::cout << "open begin" << std::endl;
     int rfd = open(fifoname.c_str(),O_RDONLY);
     if(rfd < 0)
     {
         perror("open");
         return 2; 
     }
+
+    std::cout << "open end" << std::endl;
 
     char inbuffer[1024];
 
